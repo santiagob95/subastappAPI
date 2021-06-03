@@ -1,4 +1,4 @@
-cuando se bajen el proyecto por ##Primera vez## correr los siguientes comandos
+La ##Primera vez## que abran el proyecto correr los siguientes comandos:
 
 > npm install express sequelize mysql2 cors --save
 
