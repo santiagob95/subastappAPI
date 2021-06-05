@@ -3,7 +3,7 @@ module.exports = app => {
   
     var router = require("express").Router();
 
-    // Retrieve all Catalogos
+    //API 1 GET Catalogos
     router.get("/", catalogos.findAll);
   
     app.use('/catalogo', router);

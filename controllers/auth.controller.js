@@ -6,6 +6,7 @@ const authConfig = require('../config/auth');
 
 module.exports ={
 
+    //API 2 GET Usuario
     //Login parte 1
     checkMail(req,res){
         let email= req.body.email;

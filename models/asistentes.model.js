@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
     },{
         timestamps:false
     });
-    Asistentes.belongsTo(Clientes,{foreignKey: 'fk_asistentes_clientes', targetKey: 'cliente'})
-    Asistentes.belongsTo(Subastas,{foreignKey: 'fk_asistentes_subasta', targetKey: 'subasta'})
+    // Asistentes.belongsTo(Clientes,{foreignKey: 'fk_asistentes_clientes', targetKey: 'cliente'})
+    // Asistentes.belongsTo(Subastas,{foreignKey: 'fk_asistentes_subasta', targetKey: 'subasta'})
     return Asistentes;
   };

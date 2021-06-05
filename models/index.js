@@ -31,5 +31,8 @@ db.registroSubasta = require("./registroSubasta.model")(sequelize, Sequelize);
 db.cliente= require("./cliente.model")(sequelize, Sequelize);
 db.pujas= require("./pujas.model")(sequelize, Sequelize);
 db.productos = require("./productos.model")(sequelize, Sequelize);
+db.asistentes = require("./asistentes.model")(sequelize, Sequelize);
+db.personas = require("./personas.model")(sequelize, Sequelize);
+
 
 module.exports = db;

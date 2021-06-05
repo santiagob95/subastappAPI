@@ -22,6 +22,9 @@ const db = require("./models");
 //borra la BD y la reinicia, hay que sacar todo lo que este en sync(...) para que no borre!
 db.sequelize.sync({ force: true }).then(() => {
   console.log("Drop and re-sync db.");
+
+}).then(()=>{
+  console.log("\n\n\n=== BD lista para su uso ===");
 });
 
 // simple route
