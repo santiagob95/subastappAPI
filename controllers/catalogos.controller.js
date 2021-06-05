@@ -2,6 +2,7 @@ const db = require("../models/index");
 const Catalogos = db.catalogos;
 const Op = db.Sequelize.Op;
 
+//API 1 GET CATALOGOS
 // 2. Toma todos los catalogos de la BD
 module.exports ={
   findAll (req, res){
