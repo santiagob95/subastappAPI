@@ -6,7 +6,7 @@ const authConfig = require('../config/auth');
 
 module.exports ={
 
-    //Login
+    //Login parte 1
     checkMail(req,res){
         let email= req.body.email;
         usuarios.findOne({
@@ -27,11 +27,8 @@ module.exports ={
         }).catch(err=>{
             res.status(500).json(err);
         })
-
-        //buscar si existe en la bd el mail
-
     },
-
+    //Login parte 2
     checkPass(req,res){
         let {email, password} = req.body;
         usuarios.findOne({
@@ -60,6 +57,7 @@ module.exports ={
 
     },
 
+    //primer login con usuario autorizado
     generatePass(req,res){
         //encripta la password generada
         let email = req.body.email
@@ -69,16 +67,22 @@ module.exports ={
             password: password,
             estado:2
         },
-        {where:{
-            email:email
-        }}).then(user=>{
-            res.status(200).json({msg:"Se cambio la pass correctamente",estado:user.estado})
+        {
+            returning:true, 
+            plain:true,
+            where:{
+                estado:1,
+                email:email
+            }
+        }).then(result=>{
+            res.status(404).json({msg:"Se cambio la pass correctamente",result:result[1]})
         }).catch(err =>{
-            res.status(500).json(err)})
+            res.status(500).json({msg:"No se pudo cambiar la password, ya se hizo anteriormente o el usuario todavia no esta autorizado"})
+        })
 
     },
 
-    //Registro
+    //Registro de usuario (con autorizacion pendiente)
     signUp(req,res){
 
         //Crear un usuario
@@ -86,7 +90,7 @@ module.exports ={
             idUsuario:  Math.floor(Math.random()*100000),
             email: req.body.email,
             categoria:"basica",
-            password:"2",
+            password:"",
             documento: req.body.documento || "",
             nombre: req.body.nombre || "",
             direccion:req.body.direccion || "",

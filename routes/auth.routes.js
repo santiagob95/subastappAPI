@@ -9,6 +9,7 @@ module.exports = app => {
     router.post("/mail", auth.checkMail);
     
     router.post("/pass",auth.checkPass);
+    
     router.put("/pass",auth.generatePass);
 
     router.post("/signUp", auth.signUp);
