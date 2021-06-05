@@ -4,10 +4,21 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        unique:true,
       },
       idUsuario: {
         type: Sequelize.STRING,
         primaryKey: true,
+        unique:true,
+      },
+      email:{
+        type:Sequelize.STRING,
+        unique:true,
+        validate:{
+          isEmail:{
+            msg:"El email tiene que ser valido"
+          }
+        }
       },
       password: {
         type: Sequelize.STRING
@@ -19,19 +30,19 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
       },
       documento: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       nombre: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       direccion: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       estado: {
         type: Sequelize.INTEGER
       },
       imagen: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
     },{
         timestamps:false

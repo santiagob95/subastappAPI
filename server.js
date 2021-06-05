@@ -33,7 +33,7 @@ require("./routes/paises.routes")(app);
 require("./routes/catalogos.routes")(app);
 require("./routes/productos.routes")(app);
 require("./routes/registroSubasta.routes")(app);
-require("./routes/usuarios.routes")(app);
+require("./routes/auth.routes")(app);
 require("./routes/pujas.routes")(app);
 require("./routes/cliente.routes")(app);
 
