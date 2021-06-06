@@ -33,6 +33,6 @@ db.pujas= require("./pujas.model")(sequelize, Sequelize);
 db.productos = require("./productos.model")(sequelize, Sequelize);
 db.asistentes = require("./asistentes.model")(sequelize, Sequelize);
 db.personas = require("./personas.model")(sequelize, Sequelize);
-
+db.itemsCatalogo = require("./itemsCatalogo.model")(sequelize, Sequelize);
 
 module.exports = db;

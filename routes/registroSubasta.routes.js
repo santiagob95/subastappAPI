@@ -8,5 +8,5 @@ module.exports = app => {
     router.get("/:subasta", registrosSubasta.findOne);
     router.get("/", registrosSubasta.findAll);
   
-    app.use('/RegSub', router);
+    app.use('/api/RegSub', router);
   };

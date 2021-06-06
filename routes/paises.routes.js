@@ -21,5 +21,5 @@ module.exports = app => {
     // Delete all PAISES
     router.delete("/", paises.deleteAll);
   
-    app.use('/paises', router);
+    app.use('/api/paises', router);
   };

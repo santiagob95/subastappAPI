@@ -17,7 +17,7 @@ module.exports ={
       })
       .catch(err => {
         res.status(500).send({
-          message:
+          msg:
             err.message || "Some error occurred while retrieving PAISES."
         });
       });
@@ -27,7 +27,7 @@ module.exports ={
         // Validate request
       if (!req.body.nombre) {
         res.status(400).send({
-            message: "Content can not be empty!"
+          msg: "Content can not be empty!"
             });
         return;
         }
@@ -49,7 +49,7 @@ module.exports ={
         })
         .catch(err => {
           res.status(500).send({
-            message:
+            msg:
               err.message || "Some error occurred while creating the PAIS."
           });
         });
@@ -67,7 +67,7 @@ module.exports ={
           })
           .catch(err => {
             res.status(500).send({
-              message: "Error retrieving PAIS with NUMERO=" + id
+              msg: "Error retrieving PAIS with NUMERO=" + id
             });
           });
     },
@@ -92,7 +92,7 @@ module.exports ={
           })
           .catch(err => {
             res.status(500).send({
-              message: "Error updating PAIS with NUMERO=" + id
+              msg: "Error updating PAIS with NUMERO=" + id
             });
           });
     },
@@ -107,17 +107,17 @@ module.exports ={
           .then(num => {
             if (num == 1) {
               res.send({
-                message: "PAIS was deleted successfully!"
+                msg: "PAIS was deleted successfully!"
               });
             } else {
               res.send({
-                message: `Cannot delete PAIS with NUMERO=${id}. Maybe PAIS was not found!`
+                msg: `Cannot delete PAIS with NUMERO=${id}. Maybe PAIS was not found!`
               });
             }
           })
           .catch(err => {
             res.status(500).send({
-              message: "Could not delete PAIS with NUMERO= " + id
+              msg: "Could not delete PAIS with NUMERO= " + id
             });
           });
     },
@@ -129,11 +129,11 @@ module.exports ={
             truncate: false
           })
             .then(nums => {
-              res.send({ message: `${nums} PAISES were deleted successfully!` });
+              res.send({ msg: `${nums} PAISES were deleted successfully!` });
             })
             .catch(err => {
               res.status(500).send({
-                message:
+                msg:
                   err.message || "Some error occurred while removing all PAISES."
               });
             });

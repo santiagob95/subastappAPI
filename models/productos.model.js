@@ -23,9 +23,6 @@ module.exports = (sequelize, Sequelize) => {
       duenio: {
         type: Sequelize.INTEGER
       },
-      productoID: {
-        type: Sequelize.INTEGER
-      },
       foto: {
         type: Sequelize.STRING
       },

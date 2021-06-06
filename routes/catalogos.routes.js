@@ -6,5 +6,5 @@ module.exports = app => {
     //API 1 GET Catalogos
     router.get("/", catalogos.findAll);
   
-    app.use('/catalogo', router);
+    app.use('/api/catalogo', router);
   };

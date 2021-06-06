@@ -1,20 +1,35 @@
-const db = require("../models");
+const db = require("../models/index");
 const Productos = db.productos;
+const ItemsCatalogo = db.itemsCatalogo
 const Op = db.Sequelize.Op;
 
 module.exports ={
-//API 4 GET items de un Catalogo
-// Encuentra un producto segun un numero proporcionado
-findOne (req, res) {
-  const id = req.params.identificador;
 
-  Productos.findByPk(identificador)
-    .then(data => {
-      res.send(data);
+//API 4 GET items de un Catalogo
+// Encuentra los productos de un catalogo brindado
+findProductosDeCatalogo(req, res) {
+  const catalogoID = req.params.identificador;
+
+  ItemsCatalogo.findAll({
+    where:{
+      catalogoID:catalogoID
+    }
+  })
+    .then(itemsCat => {
+      let listadoProductos =Array;
+      itemsCat.forEach(item => {
+        Producto.findByPk(item.productoID)
+        .then(prod => {
+          listadoProductos.push(prod)
+        }).catch(err=>{
+          res.status(500).send({msg})
+        })
+      })
+      res.send(listadoProductos);
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving productos with NUMERO=" + id
+        msg: "Error retrieving productos with idCatalogo=" + id
       });
     });
 },
@@ -38,7 +53,6 @@ const producto = {
   descripcionCompleta: req.body.descripcionCompleta,
   revisor: req.body.revisor,
   duenio: req.body.duenio,
-  productoID: req.body.productoID,
   foto: req.body.foto,
 };
 
@@ -55,6 +69,8 @@ const producto = {
   });
 
 },
+
+
 //API 9 GET productos de un cliente
 findProdcutsFromCliente (req, res) {
   const idCliente = req.params.idCliente;
@@ -73,6 +89,8 @@ findProdcutsFromCliente (req, res) {
       });
     });
 },
+
+
     // API REST DE USO PARA PRUEBAS======================================================================
     
 

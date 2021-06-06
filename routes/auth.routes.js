@@ -14,5 +14,5 @@ module.exports = app => {
 
     router.post("/signUp", auth.signUp);
   
-    app.use('/auth', router);
+    app.use('/api/auth', router);
   };
