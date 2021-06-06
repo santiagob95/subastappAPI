@@ -42,10 +42,11 @@ module.exports ={
 
     //API 6 PUT CLIENTE con id, actualiza datos de un cliente
     actualizarCliente(req,res){
-      let idCliente = req.body.idCliente;
+      let {idCliente, direccion, email} = req.body.idCliente;
       
       usuarios.update({
-
+        direccion: direccion,
+        email:email
       },
       {
         returning:true, 

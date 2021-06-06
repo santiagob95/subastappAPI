@@ -3,7 +3,7 @@ const Productos = db.productos;
 const Op = db.Sequelize.Op;
 
 module.exports ={
-//API 4 GET items de un Catalogo CONFLICTO CON API 9!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//API 4 GET items de un Catalogo CONFLICTO CON API 9
 // Encuentra un producto segun un numero proporcionado
 findOne (req, res) {
   const id = req.params.identificador;
