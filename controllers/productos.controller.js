@@ -3,7 +3,7 @@ const Productos = db.productos;
 const Op = db.Sequelize.Op;
 
 module.exports ={
-//API 4 GET items de un Catalogo CONFLICTO CON API 9
+//API 4 GET items de un Catalogo
 // Encuentra un producto segun un numero proporcionado
 findOne (req, res) {
   const id = req.params.identificador;
@@ -54,6 +54,24 @@ const producto = {
     });
   });
 
+},
+//API 9 GET productos de un cliente
+findProdcutsFromCliente (req, res) {
+  const idCliente = req.params.idCliente;
+
+  Productos.findAll({
+    where:{
+      duenio:idCliente
+    }
+  })
+    .then(data => {
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving productos de idCliente:" + idCliente
+      });
+    });
 },
     // API REST DE USO PARA PRUEBAS======================================================================
     
