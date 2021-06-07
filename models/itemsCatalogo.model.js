@@ -5,12 +5,12 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      catalogoID: {
-        type: Sequelize.STRING
-      },
-      productoID: {
-        type: Sequelize.BOOLEAN
-      },
+      // catalogoID: {
+      //   type: Sequelize.STRING
+      // },
+      // productoID: {
+      //   type: Sequelize.STRING
+      // },
       precioBase: {
         type: Sequelize.FLOAT
       },

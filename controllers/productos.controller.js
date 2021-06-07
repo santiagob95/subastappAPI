@@ -1,38 +1,12 @@
 const db = require("../models/index");
 const Productos = db.productos;
 const ItemsCatalogo = db.itemsCatalogo
+const Catalogos = db.catalogos
 const Op = db.Sequelize.Op;
+const { QueryTypes } = require('sequelize');
+const { catalogos } = require("../models/index");
 
 module.exports ={
-
-//API 4 GET items de un Catalogo
-// Encuentra los productos de un catalogo brindado
-findProductosDeCatalogo(req, res) {
-  const catalogoID = req.params.identificador;
-
-  ItemsCatalogo.findAll({
-    where:{
-      catalogoID:catalogoID
-    }
-  })
-    .then(itemsCat => {
-      let listadoProductos =Array;
-      itemsCat.forEach(item => {
-        Producto.findByPk(item.productoID)
-        .then(prod => {
-          listadoProductos.push(prod)
-        }).catch(err=>{
-          res.status(500).send({msg})
-        })
-      })
-      res.send(listadoProductos);
-    })
-    .catch(err => {
-      res.status(500).send({
-        msg: "Error retrieving productos with idCatalogo=" + id
-      });
-    });
-},
 
 //API 8 POST productos
 // 1. Crea y guarda un producto
