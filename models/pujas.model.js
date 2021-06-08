@@ -14,10 +14,17 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false
       },
       importe: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        validate:{
+          min: 0.01
+        }
       },
       ganador: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: "no",
+        validate:{
+            isIn: [['si', 'no']]
+            }
       }
 
     },{

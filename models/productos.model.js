@@ -9,10 +9,14 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       disponible: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING,
+        validate:{
+            isIn: [['si', 'no']]
+            }
       },
       descripcionCatalogo: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: "No posee"
       },
       descripcionCompleta: {
         type: Sequelize.STRING

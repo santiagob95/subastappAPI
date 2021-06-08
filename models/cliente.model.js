@@ -10,10 +10,16 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       admitido: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,        
+        validate:{
+            isIn: [['si', 'no']]
+            }
       },
       categoria: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,        
+        validate:{
+            isIn: [['comun', 'especial','plata','oro','platino']]
+            }
       },
       verificador: {
         type: Sequelize.INTEGER,

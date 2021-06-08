@@ -15,7 +15,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       estado: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate:{
+            isIn: [['activo', 'inactivo']]
+            }
       },
       foto: {
         type: Sequelize.STRING

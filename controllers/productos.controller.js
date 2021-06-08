@@ -1,5 +1,6 @@
 const db = require("../models/index");
 const Productos = db.productos;
+const Duenio = db.duenios;
 const ItemsCatalogo = db.itemsCatalogo
 const Catalogos = db.catalogos
 const Op = db.Sequelize.Op;
@@ -10,38 +11,56 @@ module.exports ={
 
 //API 8 POST productos
 // 1. Crea y guarda un producto
-create  (req, res) {
-  // Validate request
-if (!req.body.fecha) {
-  res.status(400).send({
-      message: "Content can not be empty!"
+create (req, res) {
+  if (!req.body.fecha) {
+    res.status(400).send({
+        message: "Content can not be empty!"
+        });
+    return;
+    }
+      // Validate requestconst
+  let fecha=req.body.fecha;
+  let descripcionCatalogo=req.body.descripcionCatalogo;
+  let descripcionCompleta= req.body.descripcionCompleta;
+  let duenio=req.body.duenio;
+  let foto=req.body.foto;
+  Duenio.findOrCreate({ 
+    where:{
+      identificador: duenio,
+    },
+    defaults:{
+      verificacionFinanciera:"no",
+      verificacionJudicial:"no",
+      calificacionRiesgo:1
+    }
+  })
+  .then((data) => {
+      console.log("\n=== Duenio ===",data); 
+      producto = {
+          fecha: fecha,
+          disponible: "si",
+          descripcionCatalogo: descripcionCatalogo,
+          descripcionCompleta: descripcionCompleta,
+          duenio: duenio,
+          foto: foto,
+          };
+      Productos.create(producto)
+          .then(data => {
+              res.send(data);
+          })
+          .catch(err => {
+              res.status(500).send({
+              message:
+                  err.message || "Some error occurred while creating the productos."
+          });
       });
-  return;
-  }
-
-  //Crear productos
-const producto = {
-  fecha: req.body.fecha,
-  disponible: req.body.disponible,
-  descripcionCatalogo: req.body.descripcionCatalogo,
-  descripcionCompleta: req.body.descripcionCompleta,
-  revisor: req.body.revisor,
-  duenio: req.body.duenio,
-  foto: req.body.foto,
-};
-
-  // Save Pais in the database
-  Productos.create(producto)
-  .then(data => {
-    res.send(data);
   })
   .catch(err => {
-    res.status(500).send({
-      message:
-        err.message || "Some error occurred while creating the productos."
-    });
-  });
-
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while creating the Puja."
+      });
+  }); 
 },
 
 
