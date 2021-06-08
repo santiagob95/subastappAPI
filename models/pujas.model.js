@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false
       },
       importe: {
-        type: Sequelize.STRING
+        type: Sequelize.FLOAT
       },
       ganador: {
         type: Sequelize.STRING

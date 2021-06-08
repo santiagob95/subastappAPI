@@ -6,13 +6,13 @@ module.exports = (sequelize, Sequelize) => {
         autoIncrement: true,
       },
       numeroPostor: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       cliente: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       subasta: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
 
     },{
