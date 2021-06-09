@@ -22,11 +22,11 @@ create (req, res) {
   let fecha=req.body.fecha;
   let descripcionCatalogo=req.body.descripcionCatalogo;
   let descripcionCompleta= req.body.descripcionCompleta;
-  let duenio=req.body.duenio;
+  let cliente=req.body.cliente;
   let foto=req.body.foto;
   Duenio.findOrCreate({ 
     where:{
-      identificador: duenio,
+      identificador: cliente,
     },
     defaults:{
       verificacionFinanciera:"no",
@@ -41,7 +41,7 @@ create (req, res) {
           disponible: "si",
           descripcionCatalogo: descripcionCatalogo,
           descripcionCompleta: descripcionCompleta,
-          duenio: duenio,
+          duenio: data[0].dataValues.identificador,
           foto: foto,
           };
       Productos.create(producto)
@@ -66,7 +66,7 @@ create (req, res) {
 
 //API 9 GET productos de un cliente
 findProdcutsFromCliente (req, res) {
-  const idCliente = req.params.idCliente;
+  const idCliente = req.query.idCliente;
 
   Productos.findAll({
     where:{
@@ -89,7 +89,7 @@ findProdcutsFromCliente (req, res) {
 
     // Borra el pais segun un numero proporcionado
     delete  (req, res){
-        const identificador = req.params.identificador;
+        const identificador = req.query.identificador;
 
         Productos.destroy({
           where: { identificador: identificador }

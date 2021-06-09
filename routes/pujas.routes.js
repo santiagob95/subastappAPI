@@ -7,7 +7,7 @@ module.exports = app => {
     router.post("/", pujas.create);
   
     // Retrieve a single pujas with numero
-    router.get("/", pujas.findAll);
+    router.get("/all", pujas.findAll);
 
     // Retrieve a single pujas with numero
     router.get("/latest", pujas.findLatest);

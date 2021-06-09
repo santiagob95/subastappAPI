@@ -25,7 +25,7 @@ module.exports ={
       //API 4 GET items de un Catalogo
       // Encuentra los productos de un catalogo brindado
       findProductosDeCatalogo(req, res) {
-        const catalogoID = req.body.identificador;
+        const catalogoID = req.query.identificador;
         Catalogos.findByPk(catalogoID).then(catalogo => {
           catalogo.getProductos().then(productos=>{
             res.json(productos)

@@ -22,7 +22,7 @@ module.exports ={
   },
     
   findLatest  (req, res){
-    let itemCatalogo = req.body.itemCatalogo;
+    let itemCatalogo = req.query.itemCatalogo;
     if(!itemCatalogo){
       res.status(404).json({msg:"Valor de item incompleto"})
     } else {
@@ -81,7 +81,7 @@ module.exports ={
 
   // 2. Toma todos las Pujas de la BD
   findAll (req, res){
-    let itemCatalogo = req.body.itemCatalogo;
+    let itemCatalogo = req.query.itemCatalogo;
     if(!itemCatalogo){
       res.status(404).json({msg:"Valor de item incompleto"})
   } else {
@@ -90,6 +90,31 @@ module.exports ={
     }
   })
     .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving Puja."
+      });
+    });
+  }},
+
+  findAllForOnePerson (req, res){
+    let cliente = req.query.cliente;
+    if(!cliente){
+      res.status(404).json({msg:"Valor de cliente incompleto"})
+  } else {
+    Asistentes.findAll({ where:{
+      cliente: cliente,
+    }
+  })
+    .then(data => {
+      data.foreach(
+        element=>{
+          
+        }
+      )
       res.send(data);
     })
     .catch(err => {

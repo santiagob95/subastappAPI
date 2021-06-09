@@ -59,7 +59,7 @@ module.exports ={
     
     // Encuentra un pais segun un numero proporcionado
     findOne (req, res){
-        const id = req.params.numero;
+        const id = req.query.numero;
 
         Paises.findByPk(numero)
           .then(data => {

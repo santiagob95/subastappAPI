@@ -1,6 +1,7 @@
 const { usuarios } = require("../models/index");
 const db = require("../models/index");
 const Clientes = db.cliente;
+const Personas = db.personas;
 const Op = db.Sequelize.Op;
 
 
@@ -64,7 +65,7 @@ module.exports ={
 
     // Encuentra un cliente segun un numero proporcionado
     findOne  (req, res) {
-        const id = req.params.numero;
+        const numero = req.query.numero;
 
         Clientes.findByPk(numero)
           .then(data => {
