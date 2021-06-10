@@ -1,10 +1,10 @@
 
 module.exports ={
-    HOST: "ec2-52-0-114-209.compute-1.amazonaws.com", //antes: localhost
-    USER:"dybwkjkwmjemli", //antes "root"
-    PASSWORD: "9b41420f0cff2dbae8937c081677cf7a5104e521e860d8ecfcaabdfd8e5e5bb4",    //"root"
+    HOST: "ec2-23-20-124-77.compute-1.amazonaws.com", //antes: localhost
+    USER:"jpkiutoahforpr", //antes "root"
+    PASSWORD: "483ab95b7fe55d572db1649c128868302ff6b5b3c8175e9ce7b9c891e33172cd",    //"root"
     logging: true, //false
-    DB: "d2ihqdtofehdjl", //antes: subastapp
+    DB: "d63uaj44tp8ddq", //antes: subastapp
     dialect: "postgres", //antes: mysql
     dialectOptions: {
       ssl: true
