@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const RegistroSubasta = sequelize.define("registrosSubasta", {
+    const RegistroSubasta = sequelize.define("subasta", {
       identificador: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.DATE
       },
       hora: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       estado: {
         type: Sequelize.STRING,

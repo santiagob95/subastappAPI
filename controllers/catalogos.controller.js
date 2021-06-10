@@ -1,6 +1,7 @@
 const { catalogos } = require("../models/index");
 const db = require("../models/index");
 const Catalogos = db.catalogos;
+const Subastas = db.subastas
 const Op = db.Sequelize.Op;
 
 //API 1 GET CATALOGOS
@@ -22,6 +23,19 @@ module.exports ={
         });
       },
 
+      findInfoDeCatalogo(req, res) {
+        const catalogoID = req.query.identificador;
+        Catalogos.findByPk(catalogoID)
+        .then(catalogo => {
+            res.send(catalogo)
+        }).catch(err => {
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while retrieving CATALOGOS."
+          });
+        });
+      },
+
       //API 4 GET items de un Catalogo
       // Encuentra los productos de un catalogo brindado
       findProductosDeCatalogo(req, res) {
@@ -36,7 +50,6 @@ module.exports ={
               err.message || "Some error occurred while retrieving CATALOGOS."
           });
         });
-
 
         // ItemsCatalogo.findAll({
         //   where:{

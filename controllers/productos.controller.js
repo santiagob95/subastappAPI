@@ -35,7 +35,6 @@ create (req, res) {
     }
   })
   .then((data) => {
-      console.log("\n=== Duenio ===",data); 
       producto = {
           fecha: fecha,
           disponible: "si",
@@ -44,11 +43,13 @@ create (req, res) {
           duenio: data[0].dataValues.identificador,
           foto: foto,
           };
+      console.log("\n=== Duenio ===",producto); 
       Productos.create(producto)
           .then(data => {
               res.send(data);
           })
           .catch(err => {
+              console.log("\n=== Duenio ===",err); 
               res.status(500).send({
               message:
                   err.message || "Some error occurred while creating the productos."
@@ -79,6 +80,23 @@ findProdcutsFromCliente (req, res) {
     .catch(err => {
       res.status(500).send({
         message: "Error retrieving productos de idCliente:" + idCliente
+      });
+    });
+},
+findProdcuto (req, res) {
+  const producto = req.query.id;
+
+  Productos.findAll({
+    where:{
+      identificador:producto
+    }
+  })
+    .then(data => {
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving productos de producto:" + producto
       });
     });
 },

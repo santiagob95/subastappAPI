@@ -8,6 +8,9 @@ module.exports = app => {
 
     //API 4 GET items de un idCatalogo
     router.get("/id", catalogos.findProductosDeCatalogo);
+
+    
+    router.get("/catalogo",catalogos.findInfoDeCatalogo);
   
     app.use('/api/catalogo', router);
   };

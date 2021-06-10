@@ -8,6 +8,8 @@ module.exports = app => {
 
     //Busca los productos publicados por un cliente
     router.get("/cliente",productos.findProdcutsFromCliente)
+
+    router.get("/producto",productos.findProdcuto)
   
     // Delete a Producto with numero
     router.delete("/:identificador", productos.delete);

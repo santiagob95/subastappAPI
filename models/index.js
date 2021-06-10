@@ -35,5 +35,6 @@ db.asistentes = require("./asistentes.model")(sequelize, Sequelize);
 db.personas = require("./personas.model")(sequelize, Sequelize);
 db.itemsCatalogo = require("./itemsCatalogo.model")(sequelize, Sequelize);
 db.duenios = require("./duenios.model")(sequelize, Sequelize);
+db.subastas = require("./subasta.model")(sequelize, Sequelize);
 
 module.exports = db;
