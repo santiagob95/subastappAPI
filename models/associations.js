@@ -16,5 +16,5 @@ Catalogo.belongsToMany(Producto,{through:"ItemsCatalogo"})
 
 
 //1 a N
-Subasta.hasMany(Catalogo, {foreignKey:"subastaID"})
-Catalogo.belongsTo(Subasta,{foreignKey:"catalogoID"})
+Subasta.hasMany(Catalogo, {as:"catalogos"})
+Catalogo.belongsTo(Subasta,{as:"subasta",foreignKey:"subastaID"})

@@ -8,9 +8,6 @@ module.exports = (sequelize, Sequelize) => {
       descripcion: {
         type: Sequelize.STRING
       },
-      subasta: {
-        type: Sequelize.INTEGER
-      },
       responsable: {
         type: Sequelize.INTEGER
       },

@@ -11,7 +11,14 @@ module.exports ={
       const identificador = req.query.identificador;
       var condition = identificador ? { identificador: { [Op.like]: `%${identificador}%` } } : null;
     
-      Catalogos.findAll({ where: condition })
+      Catalogos.findAll({
+        include: {
+          model:Subastas,
+        as:"subasta",
+        attributes:['fecha','hora','estado','ubicacion','categoria',"identificador"]
+      },
+       attributes:['identificador','descripcion','responsable','imagenes','subastaID'],
+        where: condition })
         .then(data => {
           res.send(data);
         })

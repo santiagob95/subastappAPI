@@ -90,7 +90,7 @@ module.exports ={
         usuarios.create({
             idUsuario:  Math.floor(Math.random()*100000),
             email: req.body.email,
-            categoria:"basica",
+            categoria:"comun",
             password:"",
             documento: req.body.documento || "",
             nombre: req.body.nombre || "",
