@@ -8,7 +8,6 @@ module.exports = (sequelize, Sequelize) => {
       },
       idUsuario: {
         type: Sequelize.STRING,
-        primaryKey: true,
         unique:true,
       },
       email:{

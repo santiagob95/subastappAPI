@@ -23,6 +23,7 @@ require('./models/associations');
 
 //borra la BD y la reinicia, hay que sacar todo lo que este en sync(...) para que no borre!
 db.sequelize.sync({ force: false }).then(() => {
+
   console.log("Drop and re-sync db.");
 
 }).then(()=>{

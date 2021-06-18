@@ -9,10 +9,10 @@ module.exports ={
   //API NN GET Tarjetas
   // 2. Toma todos los Tarjetas de la BD
   findAll (req, res) {
-    const numero = req.query.numero;
-    var condition = numero ? { numero: { [Op.like]: `%${numero}%` } } : null;
-  
-    Tarjetas.findAll({ where: condition })
+    const idCliente = req.query.idCliente;
+    Tarjetas.findAll({ 
+      where: {idCliente:idCliente}
+     })
       .then(data => {
         res.send(data);
       })
@@ -40,7 +40,10 @@ module.exports ={
         tipo:req.body.tipo,
         vencimiento:req.body.vencimiento,
         cvv:req.body.cvv,
-        estado:"en revision"
+        estado:"en revision",
+        //por quilombos de la relacion hay dos campos de id de usuario. No me preguntes porqué
+        usuarioidCliente:req.body.usuario.idCliente,
+        idCliente:req.body.usuario.idCliente
       };
 
         // Save Tarjetas in the database
