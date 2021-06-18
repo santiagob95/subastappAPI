@@ -1,6 +1,6 @@
 
 require('dotenv').config()
-const authTKN = require('../controllers/authenticateToken')
+//const authTKN = require('../controllers/authenticateToken')
 module.exports = app => {
     const catalogos = require("../controllers/catalogos.controller.js");
   

@@ -41,6 +41,7 @@ require("./routes/registroSubasta.routes")(app);
 require("./routes/auth.routes")(app);
 require("./routes/pujas.routes")(app);
 require("./routes/cliente.routes")(app);
+require("./routes/tarjetas.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
