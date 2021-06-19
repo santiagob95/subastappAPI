@@ -12,9 +12,9 @@ module.exports ={
 //API 8 POST productos
 // 1. Crea y guarda un producto
 create (req, res) {
-  if (!req.body.fecha) {
+  if (!req.body.duenio) {
     res.status(400).send({
-        message: "Content can not be empty!"
+        message: "Content can not be empty!"+ JSON.stringify(req.body)
         });
     return;
     }
@@ -22,11 +22,11 @@ create (req, res) {
   let fecha=req.body.fecha;
   let descripcionCatalogo=req.body.descripcionCatalogo;
   let descripcionCompleta= req.body.descripcionCompleta;
-  let cliente=req.body.cliente;
+  let duenio=req.body.duenio;
   let foto=req.body.foto;
   Duenio.findOrCreate({ 
     where:{
-      identificador: cliente,
+      identificador: duenio,
     },
     defaults:{
       verificacionFinanciera:"no",

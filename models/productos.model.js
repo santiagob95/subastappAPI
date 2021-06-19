@@ -28,7 +28,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
       },
       foto: {
-        type: Sequelize.STRING
+        type: Sequelize.ARRAY(Sequelize.TEXT)
       },
 
     },{
