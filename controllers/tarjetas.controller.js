@@ -61,31 +61,6 @@ module.exports ={
     },
 
 
-    // Actualiza un Tarjetas segun un numero proporcionado
-    update (req, res) {
-        const numero = req.params.numero;
-
-        Tarjetas.update(req.body, {
-          where: { numero: numero }
-        })
-          .then(num => {
-            if (num == 1) {
-              res.send({
-                message: "Tarjetas was updated successfully."
-              });
-            } else {
-              res.send({
-                message: `Cannot update Tarjetas with NUMERO=${numero}. Maybe Tarjetas was not found or req.body is empty!`
-              });
-            }
-          })
-          .catch(err => {
-            res.status(500).send({
-              msg: "Error updating Tarjetas with NUMERO=" + id
-            });
-          });
-    },
-
     // Borra el Tarjetas segun un numero proporcionado
     delete(req, res) {
         const numero = req.params.numero;
@@ -111,6 +86,33 @@ module.exports ={
           });
     },
 
+
+        //No se actualizan tarjetas
+        // Actualiza un Tarjetas segun un numero proporcionado
+        update (req, res) {
+          const numero = req.params.numero;
+  
+          Tarjetas.update(req.body, {
+            where: { numero: numero }
+          })
+            .then(num => {
+              if (num == 1) {
+                res.send({
+                  message: "Tarjetas was updated successfully."
+                });
+              } else {
+                res.send({
+                  message: `Cannot update Tarjetas with NUMERO=${numero}. Maybe Tarjetas was not found or req.body is empty!`
+                });
+              }
+            })
+            .catch(err => {
+              res.status(500).send({
+                msg: "Error updating Tarjetas with NUMERO=" + id
+              });
+            });
+      },
+  
     
 }
 
