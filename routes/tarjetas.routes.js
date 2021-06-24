@@ -9,9 +9,6 @@ module.exports = app => {
     // Retrieve all tarjetas
     router.get("/", tarjetas.findAll);
   
-    // Update a TARJETA with numero
-    router.post("/:numero", tarjetas.update);
-  
     // Delete a TARJETA with numero
     router.delete("/:numero", tarjetas.delete);
     

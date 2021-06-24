@@ -37,5 +37,6 @@ db.itemsCatalogo = require("./itemsCatalogo.model")(sequelize, Sequelize);
 db.duenios = require("./duenios.model")(sequelize, Sequelize);
 db.subastas = require("./subasta.model")(sequelize, Sequelize);
 db.tarjetas = require("./tarjetas.model")(sequelize,Sequelize);
+db.cuentasBancarias = require("./cuentasBancarias.model")(sequelize,Sequelize);
 
 module.exports = db;
