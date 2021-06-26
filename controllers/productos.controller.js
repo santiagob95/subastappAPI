@@ -12,6 +12,7 @@ module.exports ={
 //API 8 POST productos
 // 1. Crea y guarda un producto
 create (req, res) {
+  //console.log(req.body)
   if (!req.body.duenio) {
     res.status(400).send({
         message: "Content can not be empty!"+ JSON.stringify(req.body)
@@ -46,7 +47,7 @@ create (req, res) {
       console.log("\n=== Duenio ===",producto); 
       Productos.create(producto)
           .then(data => {
-              res.send(data);
+              res.status(200).send(data);
           })
           .catch(err => {
               console.log("\n=== Duenio ===",err); 
@@ -59,7 +60,7 @@ create (req, res) {
   .catch(err => {
       res.status(500).send({
           message:
-          err.message || "Some error occurred while creating the Puja."
+          err.message || "Some error occurred while creating the producto."
       });
   }); 
 },

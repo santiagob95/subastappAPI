@@ -39,4 +39,4 @@ const test = {
     }
 
 
-module.exports= test
+module.exports= prod
