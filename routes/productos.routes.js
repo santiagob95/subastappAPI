@@ -10,6 +10,9 @@ module.exports = app => {
     router.get("/cliente",productos.findProdcutsFromCliente)
 
     router.get("/producto",productos.findProdcuto)
+
+    router.get("/item",productos.findItem)
+  
   
     // Delete a Producto with numero
     router.delete("/:identificador", productos.delete);

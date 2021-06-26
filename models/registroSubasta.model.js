@@ -5,18 +5,18 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      subastaID: {
-        type: Sequelize.INTEGER
-      },
-      duenioID: {
-        type: Sequelize.INTEGER
-      },
-      productoID: {
-        type: Sequelize.INTEGER
-      },
-      clienteID: {
-        type: Sequelize.INTEGER
-      },
+  //    subastaID: {
+  //      type: Sequelize.INTEGER
+  //    },
+  //    duenioID: {
+  //      type: Sequelize.INTEGER
+  //    },
+   //   productoID: {
+  //      type: Sequelize.INTEGER
+ //    },
+   //   clienteID: {
+  //      type: Sequelize.INTEGER
+  //    },
       importe: {
         type: Sequelize.FLOAT
       },

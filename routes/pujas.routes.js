@@ -11,6 +11,9 @@ module.exports = app => {
 
     // Retrieve a single pujas with numero
     router.get("/latest", pujas.findLatest);
+    
+    router.get("/pujasRealizadas", pujas.findAllForOnePerson);
+    
   
     app.use('/api/pujas', router);
   };

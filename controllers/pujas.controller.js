@@ -1,9 +1,11 @@
+const { productos } = require("../models/index");
 const db = require("../models/index");
 const Pujas = db.pujas;
 const Asistentes = db.asistentes;
 const RegistroSubasta = db.registroSubasta
 const Op = db.Sequelize.Op;
-
+const Producto = db.productos
+const itemsCatalogo = db.itemsCatalogo
 //API 5 GET pujos de un identificador
 // Encuentra un puja segun un numero proporcionado
 module.exports ={
@@ -54,26 +56,48 @@ module.exports ={
       defaults:{
       numeroPostor: cliente}
     }).then((data) => {
-      Pujas.create({
-        asistente: data[0].dataValues.identificador,
-        item: itemCatalogo,
-        importe:importe
-      })
-      .then(puja => {
-        res.send(puja);
+      let asistente = data[0].dataValues.identificador;
+      Pujas.findAll({ where:{
+          item: itemCatalogo,
+      },order:[['identificador', 'DESC']],
+      }).then(lastPuja => {
+        if (lastPuja.length==0){ var importeLastPuja=0} else{ var importeLastPuja=lastPuja[0].dataValues.importe} 
+        if (((importe <= (importeLastPuja)*1.20) && importe != (importeLastPuja)) || (importeLastPuja==0) ){
+            Pujas.create({
+              asistente: asistente,
+              item: itemCatalogo,
+              importe:importe
+            })
+            .then(puja => {
+              res.send(puja);
+            })
+            .catch(err => {
+              res.status(500).send({
+                message:
+                  err.message || "Error occurred while creating the Puja."
+              });
+            });
+        }else {
+            res.status(500).send({
+              message:
+                "Importe supera el 20% de la puja previa o es igual a la ultima puja"
+            });
+          }
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the Puja."
+            err.message || "Could not find puja previa"
         });
       });
-    }).catch(err => {
+    })
+    .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Puja."
+          err.message || "Some error occurred while retrieving Asistente."
       });
-    }); 
+    });
+    
   },
 
   //APIS DE PRUEBAS======================================================================
@@ -110,17 +134,28 @@ module.exports ={
     }
   })
     .then(data => {
-      data.foreach(
-        element=>{
-          
-        }
-      )
-      res.send(data);
+      console.log("\n\n\n=== data ===",data);
+      const values=[]
+      data.forEach(id=>values.push(id.dataValues.identificador))
+      console.log("\n\n\n=== values ===",values);
+      Pujas.findAll({ where:{
+        asistente: { [Op.in]:values }
+      }
+    })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Pujas for client cannot be retrieved"
+        });
+      });
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving Puja."
+          err.message || "Assistent for client cannot be retrieved"
       });
     });
   }},

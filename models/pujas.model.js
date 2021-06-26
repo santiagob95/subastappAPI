@@ -4,15 +4,16 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        unique: true
       },
-      asistente: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      item: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
+    //  asistente: {
+    //    type: Sequelize.INTEGER,
+    //    allowNull: false
+    //  },
+    //  item: {
+    //    type: Sequelize.INTEGER,
+    //    allowNull: false
+    //  },
       importe: {
         type: Sequelize.FLOAT,
         validate:{

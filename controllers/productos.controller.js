@@ -101,11 +101,30 @@ findProdcuto (req, res) {
     });
 },
 
+findItem (req, res) {
+  const item = req.query.item;
+
+  ItemsCatalogo.findAll({
+    where:{
+      identificador:item
+  },
+  })
+    .then(data => {
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err||"Error retrieving item de producto:" + item
+      });
+    });
+},
+
+
 
     // API REST DE USO PARA PRUEBAS======================================================================
     
 
-    // Borra el pais segun un numero proporcionado
+    // Borra el Productos segun un numero proporcionado
     delete  (req, res){
         const identificador = req.query.identificador;
 
