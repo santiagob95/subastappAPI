@@ -11,6 +11,7 @@ const Cliente = db.cliente;
 const itemsCatalogo = db.itemsCatalogo;
 const registroSubasta = db.registroSubasta;
 const Duenio = db.duenios
+const Persona = db.personas
 
 //Item catalogo tiene un producto y un catalogo en el que esta
 // ItemsCatalogo.belongsTo(Producto);
@@ -47,3 +48,8 @@ Cliente.hasOne(registroSubasta,{foreignKey: 'clienteID'})
 Subasta.hasOne(registroSubasta,{foreignKey: 'subastaID'})
 Producto.hasOne(registroSubasta,{foreignKey: 'productoID'})
 Duenio.hasOne(registroSubasta,{foreignKey: 'duenioID'})
+
+
+Persona.hasOne(Cliente,{foreignKey: 'identificador'})
+
+Cliente.hasOne(Usuario,{foreignKey: 'ClienteId'})

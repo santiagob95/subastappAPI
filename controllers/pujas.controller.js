@@ -1,4 +1,4 @@
-const { productos } = require("../models/index");
+const { productos,subastas } = require("../models/index");
 const db = require("../models/index");
 const Pujas = db.pujas;
 const Asistentes = db.asistentes;
@@ -50,54 +50,71 @@ module.exports ={
     let cliente = req.body.cliente;
     let itemCatalogo = req.body.itemCatalogo;
     let importe = req.body.importe;
-    Asistentes.findOrCreate({ where:{
-      cliente: cliente,
-      subasta: subasta,},
-      defaults:{
-      numeroPostor: cliente}
-    }).then((data) => {
-      let asistente = data[0].dataValues.identificador;
-      Pujas.findAll({ where:{
-          item: itemCatalogo,
-      },order:[['identificador', 'DESC']],
-      }).then(lastPuja => {
-        if (lastPuja.length==0){ var importeLastPuja=0} else{ var importeLastPuja=lastPuja[0].dataValues.importe} 
-        if (((importe <= (importeLastPuja)*1.20) && importe != (importeLastPuja)) || (importeLastPuja==0) ){
-            Pujas.create({
-              asistente: asistente,
-              item: itemCatalogo,
-              importe:importe
-            })
-            .then(puja => {
-              res.send(puja);
-            })
-            .catch(err => {
+    let categoria = req.body.categoria;
+    Asistentes.findAll({ where:{
+      cliente: cliente, },
+      include: {
+        model:subastas,
+      as:"subasta",},
+    }).then((asistente)=>{
+      console.log("\n\n\n=== asistente ===",asistente);
+      const values=[]
+      data.forEach(id=>values.push(asistente.dataValues.subasta.activa))
+      console.log("\n\n\n=== values ===",values);
+      Asistentes.findOrCreate({ where:{
+        cliente: cliente,
+        subasta: subasta,},
+        defaults:{
+        numeroPostor: cliente}
+      }).then((data) => {
+        let asistente = data[0].dataValues.identificador;
+        Pujas.findAll({ where:{
+            item: itemCatalogo,
+        },order:[['identificador', 'DESC']],
+        }).then(lastPuja => {
+          if (lastPuja.length==0){ var importeLastPuja=0} else{ var importeLastPuja=lastPuja[0].dataValues.importe} 
+          if ( ((categoria in ["oro","platino"]) || (importe < (importeLastPuja)*1.20)) || (importeLastPuja==0) ){
+              Pujas.create({ 
+                asistente: asistente,
+                item: itemCatalogo,
+                importe:importe
+              })
+              .then(puja => {
+                res.send(puja);
+              })
+              .catch(err => {
+                res.status(500).send({
+                  message:
+                    err.message || "Error occurred while creating the Puja."
+                });
+              });
+          }else {
               res.status(500).send({
                 message:
-                  err.message || "Error occurred while creating the Puja."
+                  "Importe supera el 20% de la puja previa o es igual a la ultima puja"
               });
-            });
-        }else {
-            res.status(500).send({
-              message:
-                "Importe supera el 20% de la puja previa o es igual a la ultima puja"
-            });
-          }
+            }
+        })
+        .catch(err => {
+          res.status(500).send({
+            message:
+              err.message || "Could not find puja previa"
+          });
+        });
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Could not find puja previa"
+            err.message || "Some error occurred while retrieving Asistente."
         });
       });
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving Asistente."
+          err.message || "Some error occurred while retrieving All Asistente."
       });
     });
-    
   },
 
   //APIS DE PRUEBAS======================================================================

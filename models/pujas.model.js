@@ -29,7 +29,7 @@ module.exports = (sequelize, Sequelize) => {
       }
 
     },{
-        timestamps:false
+        timestamps:true
     });
     // Pujas.belongsTo(Asistentes,{foreignKey: 'fk_pujos_asistentes', targetKey: 'asistente'})
     // Pujas.belongsTo(ItemsCatalogo,{foreignKey: 'fk_pujos_itemsCatalogo', targetKey: 'item'})

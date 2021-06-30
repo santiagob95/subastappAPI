@@ -1,8 +1,7 @@
-const {usuarios} = require("../models/index");
+const {usuarios,personas,cliente} = require("../models/index");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth');
-
 
 module.exports ={
 
@@ -63,24 +62,66 @@ module.exports ={
         //encripta la password generada
         let email = req.body.email
         let password = bcrypt.hashSync(req.body.password, +authConfig.rounds);
-
-        usuarios.update({
-            password: password,
-            estado:2
-        },
-        {
-            returning:true, 
-            plain:true,
+        usuarios.findOne({
             where:{
                 estado:1,
                 email:email
             }
-        }).then(result=>{
-            res.status(404).json({msg:"Se cambio la pass correctamente",result:result[1]})
-        }).catch(err =>{
-            res.status(500).json({msg:"No se pudo cambiar la password, ya se hizo anteriormente o el usuario todavia no esta autorizado"})
+        }).then(user =>{
+            console.log("====USER=====",user)
+            if (user==null){
+                res.status(500).json({msg:"No se pudo cambiar la password, ya se hizo anteriormente o el usuario todavia no esta autorizado"})
+            }
+            else
+            {
+                personas.create({
+                        documento: user.dataValues.documento,
+                        nombre: user.dataValues.nombre,
+                        direccion: user.dataValues.direccion,
+                        estado:"activo",
+                        foto: user.dataValues.imagen,
+                        cliente: [{
+                            admitido: "si",
+                            numeroPais: "1",
+                            categoria: 'comun',
+                            verificador: '910'
+                        }]
+                    }, {
+                        include: {
+                        model:cliente,
+                    as:"cliente",}
+                }).then(persona =>{
+                    console.log("====persona=====",persona)
+                    usuarios.update({
+                        password: password,
+                        estado:2,
+                        ClienteId:persona.dataValues.identificador,
+                    },
+                    {
+                        returning:true, 
+                        plain:true,
+                        where:{
+                            estado:1,
+                            email:email
+                        }
+                    }).then(result=>{
+                        res.status(404).json({msg:"Se cambio la pass correctamente",result:result[1]})
+                    }).catch(err =>{
+                        res.status(500).json({msg:"No se pudo cambiar la password, ya se hizo anteriormente o el usuario todavia no esta autorizado"})
+                    })
+                }).catch(err => {
+                    res.status(500).send({
+                    message:
+                    err.message || "Could not personas.create"
+                    })
+                })
+            }
+        }).catch(err=>{
+            res.status(500).send({
+                message:
+                  err.message || "La Cague"
+                });
         })
-
     },
 
     //Registro de usuario (con autorizacion pendiente)

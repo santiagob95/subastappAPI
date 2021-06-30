@@ -39,5 +39,6 @@ db.subastas = require("./subasta.model")(sequelize, Sequelize);
 db.tarjetas = require("./tarjetas.model")(sequelize,Sequelize);
 db.cuentasBancarias = require("./cuentasBancarias.model")(sequelize,Sequelize);
 db.empleados = require("./empleados.model")(sequelize,Sequelize);
+db.personas = require("./personas.model")(sequelize,Sequelize);
 
 module.exports = db;
