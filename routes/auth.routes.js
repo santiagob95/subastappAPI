@@ -13,6 +13,8 @@ module.exports = app => {
     router.put("/pass",auth.generatePass);
 
     router.post("/signUp", auth.signUp);
+
+    router.put("/update",auth.update);
   
     app.use('/api/auth', router);
   };

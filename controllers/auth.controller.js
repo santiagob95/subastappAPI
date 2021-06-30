@@ -2,6 +2,7 @@ const {usuarios} = require("../models/index");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth');
+const auth = require("../config/auth");
 
 
 module.exports ={
@@ -96,7 +97,7 @@ module.exports ={
             nombre: req.body.nombre || "",
             direccion:req.body.direccion || "",
             estado: 0,
-            imagen: req.body.imagen || "",
+            imagen: req.body.imagen || "https://res.cloudinary.com/subastapp/image/upload/v1625020519/emptyprofilepic.jpg",
         }).then (user =>{
             let token = jwt.sign({user:user},authConfig.secret);
 
@@ -106,6 +107,29 @@ module.exports ={
             });
         }).catch(err => 
             res.status(500).json(err))
+
+    },
+    update(req,res){
+        console.log("reciby este body:\n"+JSON.stringify(req.body,null,2))
+        let usuario = req.body
+        usuarios.update({
+            email:usuario.email,
+            documento:usuario.documento,
+            nombre: usuario.nombre,
+            imagen: usuario.imagen,
+            direccion:usuario.direccion
+        },
+        {
+            returning:true, 
+            plain:true,
+            where:{
+                idUsuario:usuario.idUsuario
+            }
+        }).then(result=>{
+            res.status(404).json({msg:"Se actualizaron los datos correctamente",result:result[1]})
+        }).catch(err =>{
+            res.status(500).json({msg:"No se pudieron actualizar los datos correctamente", err})
+        })
 
     }
 }
