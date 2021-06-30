@@ -91,11 +91,13 @@ module.exports ={
                         model:cliente,
                     as:"cliente",}
                 }).then(persona =>{
+                    console.log("====identificador=====",persona.dataValues.identificador)
                     console.log("====persona=====",persona)
+                    let identificador = persona.dataValues.identificador
                     usuarios.update({
                         password: password,
                         estado:2,
-                        ClienteId:persona.dataValues.identificador,
+                        idCliente:identificador
                     },
                     {
                         returning:true, 
@@ -129,7 +131,6 @@ module.exports ={
 
         //Crear un usuario
         usuarios.create({
-            idUsuario:  Math.floor(Math.random()*100000),
             email: req.body.email,
             categoria:"comun",
             password:"",

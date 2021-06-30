@@ -52,4 +52,4 @@ Duenio.hasOne(registroSubasta,{foreignKey: 'duenioID'})
 
 Persona.hasOne(Cliente,{foreignKey: 'identificador'})
 
-Cliente.hasOne(Usuario,{foreignKey: 'ClienteId'})
+Cliente.hasOne(Usuario,{foreignKey: 'idCliente',allowNull: true})

@@ -52,62 +52,83 @@ module.exports ={
     let importe = req.body.importe;
     let categoria = req.body.categoria;
     Asistentes.findAll({ where:{
-      cliente: cliente, },
-      include: {
-        model:subastas,
-      as:"subasta",},
+      cliente: cliente,
+      },
     }).then((asistente)=>{
       console.log("\n\n\n=== asistente ===",asistente);
       const values=[]
-      data.forEach(id=>values.push(asistente.dataValues.subasta.activa))
+      asistente.forEach(id=>values.push(id.dataValues.subasta))
       console.log("\n\n\n=== values ===",values);
-      Asistentes.findOrCreate({ where:{
-        cliente: cliente,
-        subasta: subasta,},
-        defaults:{
-        numeroPostor: cliente}
-      }).then((data) => {
-        let asistente = data[0].dataValues.identificador;
-        Pujas.findAll({ where:{
-            item: itemCatalogo,
-        },order:[['identificador', 'DESC']],
-        }).then(lastPuja => {
-          if (lastPuja.length==0){ var importeLastPuja=0} else{ var importeLastPuja=lastPuja[0].dataValues.importe} 
-          if ( ((categoria in ["oro","platino"]) || (importe < (importeLastPuja)*1.20)) || (importeLastPuja==0) ){
-              Pujas.create({ 
-                asistente: asistente,
+      subastas.findAll({
+        where:{identificador: { [Op.in]:values },
+        estado:"abierta"
+      }
+      }).then((subastas)=>{
+        console.log("\n\n\n=== asistente ===",subastas);
+        if ((subastas.length==0) || ((subastas.length==1) && (subastas[0].dataValues.identificador==subasta))){
+          Asistentes.findOrCreate({ where:{
+            cliente: cliente,
+            subasta: subasta,},
+            defaults:{
+            numeroPostor: cliente}
+          }).then((data) => {
+            let asistente = data[0].dataValues.identificador;
+            Pujas.findAll({ where:{
                 item: itemCatalogo,
-                importe:importe
-              })
-              .then(puja => {
-                res.send(puja);
-              })
-              .catch(err => {
-                res.status(500).send({
-                  message:
-                    err.message || "Error occurred while creating the Puja."
-                });
-              });
-          }else {
+            },order:[['identificador', 'DESC']],
+            }).then(lastPuja => {
+              if (lastPuja.length==0){ var importeLastPuja=0} else{ var importeLastPuja=lastPuja[0].dataValues.importe} 
+              if ( ((categoria in ["oro","platino"]) || (importe < (importeLastPuja)*1.20)) && !(importe==importeLastPuja) || (importeLastPuja==0) ){
+                  Pujas.create({ 
+                    asistente: asistente,
+                    item: itemCatalogo,
+                    importe:importe
+                  })
+                  .then(puja => {
+                    res.send(puja);
+                  })
+                  .catch(err => {
+                    res.status(500).send({
+                      message:
+                        err.message || "Error occurred while creating the Puja."
+                    });
+                  });
+              }else {
+                  res.status(500).send({
+                    message:
+                      "Importe supera el 20% de la puja previa o es igual a la ultima puja"
+                  });
+                }
+            })
+            .catch(err => {
               res.status(500).send({
                 message:
-                  "Importe supera el 20% de la puja previa o es igual a la ultima puja"
+                  err.message || "Could not find puja previa"
               });
-            }
-        })
-        .catch(err => {
-          res.status(500).send({
-            message:
-              err.message || "Could not find puja previa"
+            });
+          })
+          .catch(err => {
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while retrieving Asistente."
+            });
           });
-        });
+        }
+        else
+        {
+          res.status(500).send({
+          message:
+            "Ya esta participando de una subasta activa"
+          });
+        }
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving Asistente."
+            err.message || "Could not find puja previa"
         });
       });
+
     })
     .catch(err => {
       res.status(500).send({
