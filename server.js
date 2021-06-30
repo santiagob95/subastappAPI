@@ -3,6 +3,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require('./models/associations');
 require('dotenv').config()
+require('./timer')
+
+
+
 const app = express();
 
 var corsOptions = {
