@@ -56,7 +56,7 @@ const PORT = process.env.PORT || 8080;
 // });
 httpServer.listen(8080);
 
-
+const Op = db.Sequelize.Op;
 
 io.on("connection", socket => {
   console.log("Usuario Conectado")
@@ -76,7 +76,74 @@ io.on("connection", socket => {
       })
     })  
   })
-  socket.on("findLatestPujaSubasta",(itemCatalogo,callback)=>{
+
+
+  socket.on("findLatestPujaSubasta",(subasta,callback)=>{
+    db.catalogos.findAll({
+      include: {
+        model:db.subastas,
+        as:"subasta",
+        attributes:['fecha','hora',"identificador"]
+      },
+      where:{
+        subastaID: subasta,
+      }
+    }).then(cata => {
+      console.log("\n\n\n=== cata ===",cata);
+      let horarioSubasta= cata[0].dataValues.subasta.hora;
+      const catalog=[]
+      cata.forEach(id=>catalog.push(id.dataValues.identificador))
+      console.log("\n\n\n=== catalog ===",catalog);
+      db.itemsCatalogo.findAll({ where:{
+        catalogo: { [Op.in]:catalog }
+        }
+      }).then(items => {
+        console.log("\n\n\n=== items ===",items);
+        const values=[]
+        const itemsPendientes=[]
+        items.forEach(id=>values.push(id.dataValues.identificador))
+        
+        items.forEach(id=>{
+          if (id.dataValues.subastado=='no'){
+            itemsPendientes.push(id.dataValues.identificador)
+          }
+        })
+        console.log("\n\n\n=== values ===",values);
+        db.pujas.findAll({ 
+          where:{
+            item: { [Op.in]:values }
+          },
+          limit: 1 ,
+          order:[['identificador', 'DESC']]
+        })
+        .then(data => {
+          callback({
+            estado:'ok',
+            horarioSubasta:horarioSubasta,
+            lastPuja:data[0].dataValues,
+            items:itemsPendientes
+          });
+        })
+        .catch(err => {
+          callback({
+            estado: "Pujas for client cannot be retrieved"
+          });
+        });
+      }).catch(err => {
+        callback({
+          estado:
+            err.message || "Pujas for subasta cannot be retrieved"
+        });
+      });
+    })
+    .catch(err => {
+      callback({
+        estado:
+          err.message || "Catalogo for subasta cannot be retrieved"
+      });
+    });
+
+
 
   })
   // socket.broadcast.emit('findLatestPujaSubasta',(msg)=>{
