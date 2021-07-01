@@ -18,7 +18,7 @@ module.exports ={
         attributes:['fecha','hora','estado','ubicacion','categoria',"identificador"]
       },
        attributes:['identificador','descripcion','responsable','imagenes','subastaID'],
-        where: condition })
+        where: condition ,})
         .then(data => {
           res.send(data);
         })

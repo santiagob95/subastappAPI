@@ -2,7 +2,7 @@ module.exports = app => {
     const pujas = require("../controllers/pujas.controller.js");
   
     var router = require("express").Router();
-  
+    
     // Create a new pujas
     router.post("/", pujas.create);
   
@@ -10,10 +10,12 @@ module.exports = app => {
     router.get("/all", pujas.findAll);
 
     // Retrieve a single pujas with numero
-    router.get("/latest", pujas.findLatest);
+    //router.get("/latest", pujas.findLatest);
     
     router.get("/pujasRealizadas", pujas.findAllForOnePerson);
     
-  
+    //router.get("/latestSubasta", pujas.findLatestPujaSubasta);
+    
+    
     app.use('/api/pujas', router);
   };

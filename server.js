@@ -4,10 +4,9 @@ const cors = require("cors");
 require('./models/associations');
 require('dotenv').config()
 require('./timer')
-
-
-
 const app = express();
+const httpServer = require("http").createServer(app);
+const io = require("socket.io")(httpServer);
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -45,6 +44,7 @@ require("./routes/productos.routes")(app);
 require("./routes/registroSubasta.routes")(app);
 require("./routes/auth.routes")(app);
 require("./routes/pujas.routes")(app);
+require("./routes/socketPujas.routes.js")(app);
 require("./routes/cliente.routes")(app);
 require("./routes/tarjetas.routes")(app);
 require("./routes/cuentasBancarias.routes")(app);
@@ -52,10 +52,11 @@ require("./routes/cuentasBancarias.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
-
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}.`);
+// });
+httpServer.listen(8080);
+io.on("connection", socket => {console.log("Usuario Conectado")});
 
 /*
 async const pais =  db.paises.create({

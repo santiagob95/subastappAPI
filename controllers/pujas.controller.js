@@ -1,11 +1,13 @@
-const { productos,subastas } = require("../models/index");
+const { productos, catalogos } = require("../models/index");
 const db = require("../models/index");
 const Pujas = db.pujas;
 const Asistentes = db.asistentes;
 const RegistroSubasta = db.registroSubasta
 const Op = db.Sequelize.Op;
 const Producto = db.productos
-const itemsCatalogo = db.itemsCatalogo
+const itemCatalogo = db.itemsCatalogo
+
+const Subasta = db.subastas
 //API 5 GET pujos de un identificador
 // Encuentra un puja segun un numero proporcionado
 module.exports ={
@@ -176,10 +178,11 @@ module.exports ={
       const values=[]
       data.forEach(id=>values.push(id.dataValues.identificador))
       console.log("\n\n\n=== values ===",values);
-      Pujas.findAll({ where:{
-        asistente: { [Op.in]:values }
-      }
-    })
+      Pujas.findAll({ 
+        where:{
+          asistente: { [Op.in]:values }
+        }
+      })
       .then(data => {
         res.send(data);
       })
@@ -198,5 +201,78 @@ module.exports ={
     });
   }},
 
-
+  findLatestPujaSubasta (req, res){
+    let subasta = req.query.subasta;
+    if(!subasta)
+    {
+      res.status(404).json({msg:"Valor de subasta incompleto"})
+    } 
+    else
+    {
+      catalogos.findAll({
+        include: {
+          model:Subasta,
+          as:"subasta",
+          attributes:['fecha','hora',"identificador"]
+        },
+        where:{
+          subastaID: subasta,
+        }
+      }).then(cata => {
+        console.log("\n\n\n=== cata ===",cata);
+        let horarioSubasta= cata[0].dataValues.subasta.hora;
+        const catalog=[]
+        cata.forEach(id=>catalog.push(id.dataValues.identificador))
+        console.log("\n\n\n=== catalog ===",catalog);
+        itemCatalogo.findAll({ where:{
+          catalogo: { [Op.in]:catalog }
+          }
+        }).then(items => {
+          console.log("\n\n\n=== items ===",items);
+          const values=[]
+          const itemsPendientes=[]
+          items.forEach(id=>values.push(id.dataValues.identificador))
+          
+          items.forEach(id=>{
+            if (id.dataValues.subastado=='no'){
+              itemsPendientes.push(id.dataValues.identificador)
+            }
+          })
+          console.log("\n\n\n=== values ===",values);
+          Pujas.findAll({ 
+            where:{
+              item: { [Op.in]:values }
+            },
+            limit: 1 ,
+            order:[['identificador', 'DESC']]
+          })
+          .then(data => {
+            res.send({
+              horarioSubasta:horarioSubasta,
+              createdAt: data[0].dataValues.createdAt,
+              lastItem:data[0].dataValues.item,
+              items:itemsPendientes
+            });
+          })
+          .catch(err => {
+            res.status(500).send({
+              message:
+                err.message || "Pujas for client cannot be retrieved"
+            });
+          });
+        }).catch(err => {
+          res.status(500).send({
+            message:
+              err.message || "Pujas for subasta cannot be retrieved"
+          });
+        });
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Catalogo for subasta cannot be retrieved"
+        });
+      });
+    }
+  },
 }

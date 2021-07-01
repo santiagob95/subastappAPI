@@ -15,16 +15,6 @@ function diff_hours(dt2, dt1)
     return Math.abs(Math.round(diff));
 }
 function test(){
-  pujas.findAll({
-      where:{},
-      limit:1,
-      order: [[ 'createdAt','DESC']]
-
-  }).then(puja=>{
-      //puja[0].dataValues.createdAt
-      console.log("la ultima puja fue el "+puja[0].dataValues.createdAt )
-      
-  })
 
 
 
