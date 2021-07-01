@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //sync sequelize
 const db = require("./models/index");
+const { subastas } = require("./models/index");
 require('./models/associations');
 
 //borra la BD y la reinicia, hay que sacar todo lo que este en sync(...) para que no borre!
@@ -36,6 +37,31 @@ db.sequelize.sync({ force: false }).then(() => {
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to SubastApp." });
 });
+
+app.post("/activarSubasta",(req, res)=>{
+  const sub = req.query.subasta
+  db.subastas.findOne({where:{identificador:sub}
+  }).then(subasta=>{
+    if(subasta){
+      subasta.update({
+        estado:"abierta"
+      }).then(s=>{
+        res.send("se activo la subasta")
+      })
+    }
+  })
+  db.subastas.update({
+    where:{
+      identificador:sub
+    }
+  }).then(subasta=>{
+    if(subasta!=null){
+    
+
+    }
+  })
+
+})
 
 require("./routes/paises.routes")(app);
 require("./routes/catalogos.routes")(app);
@@ -58,10 +84,10 @@ httpServer.listen(8080);
 
 const Op = db.Sequelize.Op;
 
-io.on("connection", socket => {
+io.on("connection", (socket1,socket2) => {
   console.log("Usuario Conectado")
 
-  socket.on("ultimaPuja",(itemCatalogo,callback)=>{
+  socket1.on("ultimaPuja",(itemCatalogo,callback)=>{
     console.log("id producto: "+itemCatalogo);
 
     db.pujas.findAll({ where:{
@@ -71,14 +97,14 @@ io.on("connection", socket => {
     .then(data => {
       console.log("encontre: "+ data)
       callback({
-        status:data[0] ? 'ok': 'not found',
+        estado:data[0] ? 'ok': 'not found',
         lastPuja:data[0]
       })
     })  
   })
 
 
-  socket.on("findLatestPujaSubasta",(subasta,callback)=>{
+  socket1.on("findLatestPujaSubasta",(subasta,callback)=>{
     db.catalogos.findAll({
       include: {
         model:db.subastas,
@@ -142,8 +168,6 @@ io.on("connection", socket => {
           err.message || "Catalogo for subasta cannot be retrieved"
       });
     });
-
-
 
   })
   // socket.broadcast.emit('findLatestPujaSubasta',(msg)=>{
