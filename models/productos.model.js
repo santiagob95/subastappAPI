@@ -24,9 +24,9 @@ module.exports = (sequelize, Sequelize) => {
       revisor: {
         type: Sequelize.INTEGER
       },
-      duenio: {
-        type: Sequelize.INTEGER
-      },
+  //    duenio: {
+  //      type: Sequelize.INTEGER
+  //    },
       foto: {
         type: Sequelize.ARRAY(Sequelize.TEXT)
       },

@@ -8,12 +8,12 @@ module.exports = (sequelize, Sequelize) => {
       numeroPostor: {
         type: Sequelize.INTEGER,
       },
-      cliente: {
-        type: Sequelize.INTEGER,
-      },
-      subasta: {
-        type: Sequelize.INTEGER
-      },
+      //cliente: {
+      //type: Sequelize.INTEGER,
+//      },
+//      subasta: {
+//        type: Sequelize.INTEGER
+//      },
 
     },{
         timestamps:false

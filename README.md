@@ -6,6 +6,8 @@ La ##Primera vez## que abran el proyecto correr los siguientes comandos:
 
 >npm install babel
 
+>npm install nodemailer
+
 >npm install bcrypt jsonwebtoken
 
 ----------------------------------------------------------------------------------

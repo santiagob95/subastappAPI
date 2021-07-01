@@ -4,15 +4,16 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        unique: true
       },
-      asistente: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      item: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
+    //  asistente: {
+    //    type: Sequelize.INTEGER,
+    //    allowNull: false
+    //  },
+    //  item: {
+    //    type: Sequelize.INTEGER,
+    //    allowNull: false
+    //  },
       importe: {
         type: Sequelize.FLOAT,
         validate:{
@@ -28,7 +29,7 @@ module.exports = (sequelize, Sequelize) => {
       }
 
     },{
-        timestamps:false
+        timestamps:true
     });
     // Pujas.belongsTo(Asistentes,{foreignKey: 'fk_pujos_asistentes', targetKey: 'asistente'})
     // Pujas.belongsTo(ItemsCatalogo,{foreignKey: 'fk_pujos_itemsCatalogo', targetKey: 'item'})
