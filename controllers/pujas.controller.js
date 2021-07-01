@@ -88,7 +88,6 @@ module.exports ={
                   })
                   .then(puja => {
                     res.send(puja);
-                    //ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
                   })
                   .catch(err => {
                     res.status(500).send({
@@ -201,10 +200,7 @@ module.exports ={
       });
     });
   }},
-  ioPuja(io){
 
-
-  },
   findLatestPujaSubasta (req, res){
     let subasta = req.query.subasta;
     if(!subasta)
@@ -252,9 +248,9 @@ module.exports ={
           })
           .then(data => {
             res.send({
-              //ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
               horarioSubasta:horarioSubasta,
-              lastPuja:data[0].dataValues,
+              createdAt: data[0].dataValues.createdAt,
+              lastItem:data[0].dataValues.item,
               items:itemsPendientes
             });
           })

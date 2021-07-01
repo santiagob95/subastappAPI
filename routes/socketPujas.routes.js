@@ -1,5 +1,3 @@
-
-
 module.exports = app => {
     const pujas = require("../controllers/pujas.controller.js");
   
@@ -10,10 +8,10 @@ module.exports = app => {
     });*/
     // Retrieve a single pujas with numero
     router.get("/latest", pujas.findLatest);
-
-
+   
+    
     router.get("/latestSubasta", pujas.findLatestPujaSubasta);
     
-  
+    
     app.use('/socket/pujas', router);
   };

@@ -3,10 +3,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require('./models/associations');
 require('dotenv').config()
-require('./socketImplementation')
+require('./timer')
 const app = express();
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer);
+
 var corsOptions = {
   origin: "http://localhost:8081"
 };
@@ -55,40 +56,15 @@ const PORT = process.env.PORT || 8080;
 //   console.log(`Server is running on port ${PORT}.`);
 // });
 httpServer.listen(8080);
+io.on("connection", socket => {console.log("Usuario Conectado")});
 
+/*
+async const pais =  db.paises.create({
+  nombre:"Peru",
+  nombreCorto:"PE",
+  capital:"Lima",
+  nacionalidad:"Peruano/a",
+  idiomas:"ESP"
 
-
-io.on("connection", socket => {
-  console.log("Usuario Conectado")
-
-  socket.on("ultimaPuja",(itemCatalogo,callback)=>{
-    console.log("id producto: "+itemCatalogo);
-
-    db.pujas.findAll({ where:{
-      item: itemCatalogo,
-   },order:[['identificador', 'DESC']],
-  })
-    .then(data => {
-      console.log("encontre: "+ data)
-      callback({
-        status:data[0] ? 'ok': 'not found',
-        lastPuja:data[0]
-      })
-    })  
-  })
-  socket.on("findLatestPujaSubasta",(itemCatalogo,callback)=>{
-
-  })
-  // socket.broadcast.emit('findLatestPujaSubasta',(msg)=>{
-  //   console.log(msg);
-  //   //io.emit('msg')
-  // })
-  
-  // socket.broadcast.emit('findLatest',(msg)=>{
-  //   console.log(msg);
-  //   //io.emit('msg')
-  // })
-})
-io.on("hello",(args)=>{
-  console.log(args)
-})
+});
+*/
