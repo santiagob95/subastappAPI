@@ -1,16 +1,21 @@
 module.exports = app => {
-    const pujas = require("../controllers/pujas.controller.js");
-  
-    var router = require("express").Router();
-  
-    // Create a new pujas
-    router.post("/", pujas.create);
-  
-    // Retrieve a single pujas with numero
-    router.get("/all", pujas.findAll);
+  const pujas = require("../controllers/pujas.controller.js");
 
-    // Retrieve a single pujas with numero
-    router.get("/latest", pujas.findLatest);
+  var router = require("express").Router();
   
-    app.use('/api/pujas', router);
-  };
+  // Create a new pujas
+  router.post("/", pujas.create);
+
+  // Retrieve a single pujas with numero
+  router.get("/all", pujas.findAll);
+
+  // Retrieve a single pujas with numero
+  router.get("/latest", pujas.findLatest);
+  
+  router.get("/pujasRealizadas", pujas.findAllForOnePerson);
+  
+  router.get("/latestSubasta", pujas.findLatestPujaSubasta);
+  
+  
+  app.use('/api/pujas', router);
+};
